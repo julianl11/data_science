@@ -1,0 +1,43 @@
+[FULL MODE] Using full training set
+[classify_columns] skewed=4  continuous=0  binary=1
+
+[build_pipeline] Column assignment:
+  Skewed continuous (4):    ['sq_mt_built', 'n_rooms', 'n_bathrooms', 'addr_number_bucket']
+  Continuous        (0): []
+  Binary/dummy      (1):   (first 8) ['addr_has_number']
+  PCA disabled (default).  Enable with use_pca=True for linear models.
+
+[build_pipeline] Pipeline assembled with 2 steps.
+
+══════════════════════════════════════════════════════════════════════
+  Nested CV — Model Selection  [FULL MODE]
+  Outer: 5-fold  |  Inner: 3-fold RandomizedSearch
+══════════════════════════════════════════════════════════════════════
+
+  ▶ Ridge              params=1 keys  n_iter=20 … MAE € 211,967 ± € 4,862
+  ▶ ElasticNet         params=2 keys  n_iter=15 … MAE € 212,214 ± € 4,885
+  ▶ GradientBoosting   params=5 keys  n_iter=12 … MAE € 110,959 ± € 4,729
+  ▶ XGBoost            params=8 keys  n_iter=20 … MAE € 108,260 ± € 3,739
+  ▶ LightGBM           params=9 keys  n_iter=20 … MAE € 109,645 ± € 5,527
+
+══════════════════════════════════════════════════════════════════════
+  Rank  Model                     MAE €      ± Std  Best Parameters
+──────────────────────────────────────────────────────────────────────
+  1     XGBoost              €  108,260 ±€  3,739
+         └─ subsample=1.0000  reg_lambda=1.0000  reg_alpha=0.5000  n_estimators=800  min_child_weight=1  max_depth=6  learning_rate=0.1000  colsample_bytree=1.0000
+
+  2     LightGBM             €  109,645 ±€  5,527
+         └─ subsample=1.0000  reg_lambda=0  reg_alpha=0  num_leaves=31  n_estimators=500  min_child_samples=10  max_depth=10  learning_rate=0.1000  colsample_bytree=0.8000
+
+  3     GradientBoosting     €  110,959 ±€  4,729
+         └─ subsample=0.8000  n_estimators=600  min_samples_leaf=20  max_depth=5  learning_rate=0.1000
+
+  4     Ridge                €  211,967 ±€  4,862
+         └─ alpha=0.0233
+
+  5     ElasticNet           €  212,214 ±€  4,885
+         └─ l1_ratio=0.7000  alpha=0.0013
+
+══════════════════════════════════════════════════════════════════════
+  Best model: XGBoost  (€108,260 mean outer-fold MAE)
+
