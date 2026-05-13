@@ -1,0 +1,4 @@
+.claude/
+*.prev
+__pycache__/
+*.pyc
