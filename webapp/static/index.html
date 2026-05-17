@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Madrid Asking-Price Appraisal</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Madrid Asking-Price Appraisal</h1>
+    <p class="sub">Click a point on the map to set the district, answer a few questions, get an estimated asking price. Only fields the model actually uses are asked.</p>
+    <div id="model-warning" class="banner error hidden"></div>
+  </header>
+
+  <main>
+    <section id="map-panel">
+      <div id="map"></div>
+      <div id="district-banner" class="banner muted">Pick a location on the map &rarr;</div>
+      <div id="result-inline" class="hidden result-card">
+        <div class="result-district" id="resinline-district"></div>
+        <div class="result-point" id="resinline-point"></div>
+        <div class="result-band" id="resinline-band"></div>
+        <div class="result-note" id="resinline-note"></div>
+      </div>
+    </section>
+
+    <section id="form-panel">
+      <form id="appraisal-form" class="disabled">
+        <fieldset>
+          <legend>Location</legend>
+          <label>Detected district
+            <input id="district-display" type="text" readonly placeholder="Click the map" />
+          </label>
+          <label>Neighborhood <span class="req">*</span>
+            <select id="subtitle" required><option value="">— select a neighborhood —</option></select>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Property <span class="req">* required</span></legend>
+          <label>Built area (m²) <span class="req">*</span>
+            <input id="sq_mt_built" type="number" min="1" step="1" required />
+          </label>
+          <label>Bathrooms <span class="req">*</span>
+            <select id="n_bathrooms" required>
+              <option value="">—</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+            </select>
+          </label>
+          <label>Rooms <span class="req">*</span>
+            <select id="n_rooms" required>
+              <option>1</option><option>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6</option><option>7</option>
+            </select>
+          </label>
+          <label>Build year
+            <input id="built_year" type="number" min="1850" max="2025" step="1" placeholder="default by district" />
+          </label>
+          <label>Property type
+            <select id="house_type_id"></select>
+          </label>
+          <label>Floor
+            <select id="floor"><option value="">— not specified —</option></select>
+          </label>
+          <label>Energy certificate
+            <select id="energy_certificate"><option value="">— not specified —</option></select>
+          </label>
+          <label>Street type
+            <select id="street_type"></select>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Amenities</legend>
+          <div id="amenities" class="chips"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Characteristics</legend>
+          <div id="flags" class="chips"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Orientation</legend>
+          <div id="orientations" class="chips"></div>
+        </fieldset>
+
+        <button type="submit" id="submit-btn" disabled>Estimate asking price</button>
+      </form>
+
+      <div id="result-modal" class="modal-overlay">
+        <div class="modal-box" role="dialog" aria-modal="true">
+          <button type="button" id="result-close" class="modal-close" aria-label="Close">&times;</button>
+          <div class="result-district" id="result-district"></div>
+          <div class="result-point" id="result-point"></div>
+          <div class="result-band" id="result-band"></div>
+          <div class="result-note" id="result-note"></div>
+          <div class="modal-hint">Press Esc or click outside to adjust your inputs.</div>
+        </div>
+      </div>
+      <div id="error" class="hidden error"></div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
